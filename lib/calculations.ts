@@ -1,3 +1,5 @@
+import type { ServiceInterval, ServiceLog } from './types'
+
 export interface ServiceStatus {
   name: string
   intervalHours: number
@@ -31,8 +33,8 @@ export function getWorstStatus(statuses: ServiceStatus[]): 'ok' | 'soon' | 'over
 
 export function getServiceStatuses(
   currentHours: number,
-  intervals: { id: string; name: string; interval_hours: number }[],
-  logs: { interval_id: string | null; hours_at_service: number; date: string }[]
+  intervals: ServiceInterval[],
+  logs: ServiceLog[]
 ): ServiceStatus[] {
   return intervals.map((interval) => {
     const intervalLogs = logs
