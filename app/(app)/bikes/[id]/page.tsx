@@ -2,8 +2,9 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
 import { getServiceStatuses } from '@/lib/calculations'
 import ServiceIntervalCard from '@/components/ServiceIntervalCard'
+import ServiceHistory from '@/components/ServiceHistory'
 import Link from 'next/link'
-import type { ServiceLogPartial } from '@/lib/types'
+import type { ServiceLog, ServiceLogPartial } from '@/lib/types'
 
 export default async function BikeDetailPage({
   params,
@@ -37,6 +38,12 @@ export default async function BikeDetailPage({
         .select('interval_id, hours_at_service, date')
         .in('interval_id', intervalIds)
     : { data: [] as ServiceLogPartial[] }
+
+  const { data: allLogs } = await supabase
+    .from('service_log')
+    .select('*')
+    .eq('bike_id', id)
+    .order('date', { ascending: false })
 
   const statuses = getServiceStatuses(bike.total_hours, intervals ?? [], logs ?? [])
 
@@ -90,6 +97,8 @@ export default async function BikeDetailPage({
           ))}
         </div>
       )}
+
+      <ServiceHistory logs={(allLogs ?? []) as ServiceLog[]} />
     </main>
   )
 }
