@@ -27,6 +27,9 @@ export async function createBike(formData: FormData) {
     .select('id')
     .single()
 
-  if (error || !data) redirect('/dashboard')
+  if (error || !data) {
+    console.error('createBike error:', error)
+    redirect(`/bikes/new?error=${encodeURIComponent(error?.message ?? 'Unbekannter Fehler')}`)
+  }
   redirect(`/bikes/${data.id}`)
 }
