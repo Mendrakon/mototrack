@@ -27,3 +27,5 @@ export interface ServiceLog {
   date: string
   notes: string | null
 }
+
+export type ServiceLogPartial = Pick<ServiceLog, 'interval_id' | 'hours_at_service' | 'date'>

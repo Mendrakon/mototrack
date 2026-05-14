@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { getServiceStatuses, getWorstStatus } from '@/lib/calculations'
 import BikeCard from '@/components/BikeCard'
-import type { ServiceLog } from '@/lib/types'
+import type { ServiceLogPartial } from '@/lib/types'
 import Link from 'next/link'
 
 export default async function DashboardPage() {
@@ -43,7 +43,7 @@ export default async function DashboardPage() {
         .from('service_log')
         .select('interval_id, hours_at_service, date')
         .in('interval_id', intervalIds)
-    : { data: [] as ServiceLog[] }
+    : { data: [] as ServiceLogPartial[] }
 
   return (
     <main className="p-4">
@@ -54,8 +54,8 @@ export default async function DashboardPage() {
           const bikeLogs = (logs ?? []).filter((l) =>
             bikeIntervals.some((i) => i.id === l.interval_id)
           )
-          const statuses = getServiceStatuses(bike.total_hours, bikeIntervals, bikeLogs as ServiceLog[])
-          const worstStatus = getWorstStatus(statuses)
+          const statuses = getServiceStatuses(bike.total_hours, bikeIntervals, bikeLogs)
+          const worstStatus = statuses.length > 0 ? getWorstStatus(statuses) : undefined
           const nextService = statuses
             .filter((s) => s.status !== 'ok')
             .sort((a, b) => b.percentageDue - a.percentageDue)[0]

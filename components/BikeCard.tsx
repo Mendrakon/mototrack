@@ -7,7 +7,7 @@ interface BikeCardProps {
   make: string | null
   model: string | null
   totalHours: number
-  worstStatus: 'ok' | 'soon' | 'overdue'
+  worstStatus?: 'ok' | 'soon' | 'overdue'
   nextServiceName?: string
 }
 
@@ -20,11 +20,13 @@ export default function BikeCard({
   worstStatus,
   nextServiceName,
 }: BikeCardProps) {
-  const borderColor = {
-    ok: 'border-green-800',
-    soon: 'border-orange-700',
-    overdue: 'border-red-800',
-  }[worstStatus]
+  const borderColor = worstStatus
+    ? {
+        ok: 'border-green-800',
+        soon: 'border-orange-700',
+        overdue: 'border-red-800',
+      }[worstStatus]
+    : 'border-[#333]'
 
   return (
     <Link href={`/bikes/${id}`}>
@@ -38,7 +40,7 @@ export default function BikeCard({
               </p>
             )}
           </div>
-          <ServiceBadge status={worstStatus} />
+          {worstStatus && <ServiceBadge status={worstStatus} />}
         </div>
         <div className="flex items-baseline gap-1">
           <span className="text-2xl font-bold text-white">{totalHours.toFixed(1)}</span>
