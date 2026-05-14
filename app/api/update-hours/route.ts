@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import { NextResponse, type NextRequest } from 'next/server'
+import { revalidatePath } from 'next/cache'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -47,6 +48,9 @@ export async function POST(request: NextRequest) {
     bike_id: bike.id,
     hours_reported: total_hours,
   })
+
+  revalidatePath('/dashboard')
+  revalidatePath(`/bikes/${bike.id}`)
 
   return NextResponse.json({ success: true, bike_id: bike.id, hours_updated: total_hours })
 }
