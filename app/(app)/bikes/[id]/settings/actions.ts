@@ -12,12 +12,13 @@ export async function addInterval(bikeId: string, formData: FormData) {
   const name = formData.get('name') as string
   const intervalHours = parseFloat(formData.get('interval_hours') as string)
 
-  await supabase.from('service_intervals').insert({
+  const { error } = await supabase.from('service_intervals').insert({
     bike_id: bikeId,
     name,
     interval_hours: intervalHours,
   })
 
+  if (error) console.error('addInterval error:', error)
   revalidatePath(`/bikes/${bikeId}/settings`)
 }
 
