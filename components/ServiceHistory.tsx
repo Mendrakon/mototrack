@@ -24,7 +24,7 @@ export default function ServiceHistory({ logs }: ServiceHistoryProps) {
               </p>
             </div>
             <p className="text-[#666] text-xs mt-0.5">
-              bei {Number(log.hours_at_service).toFixed(1)}h
+              bei {Number(log.hours_at_service).toFixed(2)}h
             </p>
             {log.notes && (
               <p className="text-[#888] text-xs mt-1 italic">{log.notes}</p>

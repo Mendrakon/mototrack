@@ -71,7 +71,7 @@ export default async function BikeDetailPage({
 
       <div className="bg-[#1a1a1a] rounded-xl p-5 mb-6 text-center">
         <p className="text-[#888] text-xs mb-1">Betriebsstunden</p>
-        <p className="text-5xl font-bold text-white">{bike.total_hours.toFixed(1)}</p>
+        <p className="text-5xl font-bold text-white">{bike.total_hours.toFixed(2)}</p>
         <p className="text-[#888] text-sm mt-1">Stunden</p>
       </div>
 

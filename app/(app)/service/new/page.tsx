@@ -78,7 +78,7 @@ export default async function NewServicePage({
             type="number"
             step="0.1"
             min="0"
-            defaultValue={bike.total_hours.toFixed(1)}
+            defaultValue={bike.total_hours.toFixed(2)}
             required
             className={inputClass}
           />

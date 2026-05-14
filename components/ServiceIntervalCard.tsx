@@ -25,10 +25,10 @@ export default function ServiceIntervalCard({ status }: ServiceIntervalCardProps
         <span className="font-medium text-white text-sm">{status.name}</span>
         <span className={`text-xs font-semibold ${labelColor}`}>
           {status.status === 'overdue'
-            ? `${status.hoursOverdue.toFixed(1)}h überfällig`
+            ? `${status.hoursOverdue.toFixed(2)}h überfällig`
             : status.status === 'soon'
-            ? `${status.hoursUntilNext.toFixed(1)}h verbleibend`
-            : `${status.hoursUntilNext.toFixed(1)}h verbleibend`}
+            ? `${status.hoursUntilNext.toFixed(2)}h verbleibend`
+            : `${status.hoursUntilNext.toFixed(2)}h verbleibend`}
         </span>
       </div>
       <div className="w-full bg-[#333] rounded-full h-2">

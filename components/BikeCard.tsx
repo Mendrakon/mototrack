@@ -43,7 +43,7 @@ export default function BikeCard({
           {worstStatus && <ServiceBadge status={worstStatus} />}
         </div>
         <div className="flex items-baseline gap-1">
-          <span className="text-2xl font-bold text-white">{totalHours.toFixed(1)}</span>
+          <span className="text-2xl font-bold text-white">{totalHours.toFixed(2)}</span>
           <span className="text-[#888] text-sm">Stunden</span>
         </div>
         {nextServiceName && (
