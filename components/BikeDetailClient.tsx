@@ -85,7 +85,7 @@ export default function BikeDetailClient({ initialBike, intervals, logs, allLogs
       ) : (
         <div className="flex flex-col gap-3">
           {statuses.map((s) => (
-            <ServiceIntervalCard key={s.name} status={s} />
+            <ServiceIntervalCard key={s.name} status={s} bikeId={bike.id} />
           ))}
         </div>
       )}

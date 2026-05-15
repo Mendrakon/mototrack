@@ -1,6 +1,7 @@
 import type { ServiceInterval, ServiceLogPartial } from './types'
 
 export interface ServiceStatus {
+  intervalId: string
   name: string
   intervalHours: number
   lastServiceHours: number
@@ -12,6 +13,7 @@ export interface ServiceStatus {
 }
 
 export function calculateServiceStatus(
+  intervalId: string,
   name: string,
   intervalHours: number,
   lastServiceHours: number,
@@ -22,7 +24,7 @@ export function calculateServiceStatus(
   const percentageDue = ((currentHours - lastServiceHours) / intervalHours) * 100
   const status: 'ok' | 'soon' | 'overdue' =
     percentageDue >= 100 ? 'overdue' : percentageDue >= 80 ? 'soon' : 'ok'
-  return { name, intervalHours, lastServiceHours, currentHours, hoursUntilNext, hoursOverdue, percentageDue, status }
+  return { intervalId, name, intervalHours, lastServiceHours, currentHours, hoursUntilNext, hoursOverdue, percentageDue, status }
 }
 
 export function getWorstStatus(statuses: ServiceStatus[]): 'ok' | 'soon' | 'overdue' {
@@ -42,6 +44,6 @@ export function getServiceStatuses(
       .sort((a, b) => b.hours_at_service - a.hours_at_service)
     // No log → start tracking from currentHours (fresh interval, not retroactively overdue)
     const lastServiceHours = intervalLogs[0]?.hours_at_service ?? currentHours
-    return calculateServiceStatus(interval.name, interval.interval_hours, lastServiceHours, currentHours)
+    return calculateServiceStatus(interval.id, interval.name, interval.interval_hours, lastServiceHours, currentHours)
   })
 }

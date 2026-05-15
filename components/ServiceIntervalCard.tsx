@@ -1,10 +1,12 @@
+import Link from 'next/link'
 import type { ServiceStatus } from '@/lib/calculations'
 
 interface ServiceIntervalCardProps {
   status: ServiceStatus
+  bikeId: string
 }
 
-export default function ServiceIntervalCard({ status }: ServiceIntervalCardProps) {
+export default function ServiceIntervalCard({ status, bikeId }: ServiceIntervalCardProps) {
   const clampedPct = Math.min(status.percentageDue, 100)
   const barColor =
     status.status === 'overdue'
@@ -23,13 +25,19 @@ export default function ServiceIntervalCard({ status }: ServiceIntervalCardProps
     <div className="bg-[#1a1a1a] rounded-lg p-4 flex flex-col gap-2">
       <div className="flex items-center justify-between">
         <span className="font-medium text-white text-sm">{status.name}</span>
-        <span className={`text-xs font-semibold ${labelColor}`}>
-          {status.status === 'overdue'
-            ? `${status.hoursOverdue.toFixed(2)}h überfällig`
-            : status.status === 'soon'
-            ? `${status.hoursUntilNext.toFixed(2)}h verbleibend`
-            : `${status.hoursUntilNext.toFixed(2)}h verbleibend`}
-        </span>
+        <div className="flex items-center gap-2">
+          <span className={`text-xs font-semibold ${labelColor}`}>
+            {status.status === 'overdue'
+              ? `${status.hoursOverdue.toFixed(2)}h überfällig`
+              : `${status.hoursUntilNext.toFixed(2)}h verbleibend`}
+          </span>
+          <Link
+            href={`/service/new?bike_id=${bikeId}&interval_id=${status.intervalId}`}
+            className="text-xs border border-[#444] text-[#aaa] rounded px-2 py-0.5"
+          >
+            ✓
+          </Link>
+        </div>
       </div>
       <div className="w-full bg-[#333] rounded-full h-2">
         <div
