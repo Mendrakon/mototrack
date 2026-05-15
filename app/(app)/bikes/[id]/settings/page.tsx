@@ -125,6 +125,17 @@ export default async function BikeSettingsPage({
               step="0.5"
               className={`${inputClass} flex-1`}
             />
+          </div>
+          <input
+            name="last_service_hours"
+            type="number"
+            placeholder="Letzter Service bei … h (optional)"
+            min="0"
+            step="0.5"
+            className={`${inputClass} w-full`}
+          />
+          <p className="text-xs text-[#555]">Leer lassen = Tracking startet ab jetzt</p>
+          <div className="flex justify-end">
             <button
               type="submit"
               className="bg-[#ff6600] text-black font-semibold rounded-lg px-4 text-sm"

@@ -11,15 +11,33 @@ export async function addInterval(bikeId: string, formData: FormData) {
 
   const name = formData.get('name') as string
   const intervalHours = parseFloat(formData.get('interval_hours') as string)
+  const lastServiceRaw = formData.get('last_service_hours') as string
+  const lastServiceHours = lastServiceRaw !== '' ? parseFloat(lastServiceRaw) : null
 
-  const { error } = await supabase.from('service_intervals').insert({
-    bike_id: bikeId,
-    name,
-    interval_hours: intervalHours,
-  })
+  const { data: interval, error } = await supabase
+    .from('service_intervals')
+    .insert({ bike_id: bikeId, name, interval_hours: intervalHours })
+    .select('id')
+    .single()
 
-  if (error) console.error('addInterval error:', error)
+  if (error || !interval) {
+    console.error('addInterval error:', error)
+    revalidatePath(`/bikes/${bikeId}/settings`)
+    return
+  }
+
+  if (lastServiceHours !== null && !isNaN(lastServiceHours)) {
+    await supabase.from('service_log').insert({
+      bike_id: bikeId,
+      interval_id: interval.id,
+      service_name: name,
+      hours_at_service: lastServiceHours,
+      date: new Date().toISOString(),
+    })
+  }
+
   revalidatePath(`/bikes/${bikeId}/settings`)
+  revalidatePath(`/bikes/${bikeId}`)
 }
 
 export async function deleteInterval(intervalId: string, bikeId: string) {
