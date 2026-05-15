@@ -42,7 +42,6 @@ export function getServiceStatuses(
     const intervalLogs = logs
       .filter((l) => l.interval_id === interval.id)
       .sort((a, b) => b.hours_at_service - a.hours_at_service)
-    // No log → start tracking from currentHours (fresh interval, not retroactively overdue)
     const lastServiceHours = intervalLogs[0]?.hours_at_service ?? currentHours
     return calculateServiceStatus(interval.id, interval.name, interval.interval_hours, lastServiceHours, currentHours)
   })

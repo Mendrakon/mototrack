@@ -14,6 +14,12 @@ export async function addInterval(bikeId: string, formData: FormData) {
   const lastServiceRaw = formData.get('last_service_hours') as string
   const lastServiceHours = lastServiceRaw !== '' ? parseFloat(lastServiceRaw) : null
 
+  const { data: bike } = await supabase
+    .from('bikes')
+    .select('total_hours, hours_offset')
+    .eq('id', bikeId)
+    .single()
+
   const { data: interval, error } = await supabase
     .from('service_intervals')
     .insert({ bike_id: bikeId, name, interval_hours: intervalHours })
@@ -26,15 +32,18 @@ export async function addInterval(bikeId: string, formData: FormData) {
     return
   }
 
-  if (lastServiceHours !== null && !isNaN(lastServiceHours)) {
-    await supabase.from('service_log').insert({
-      bike_id: bikeId,
-      interval_id: interval.id,
-      service_name: name,
-      hours_at_service: lastServiceHours,
-      date: new Date().toISOString(),
-    })
-  }
+  // Always create an initial log entry so the start point is fixed (not dynamic)
+  const startHours = (lastServiceHours !== null && !isNaN(lastServiceHours))
+    ? lastServiceHours
+    : (bike ? (bike.hours_offset ?? 0) + bike.total_hours : 0)
+
+  await supabase.from('service_log').insert({
+    bike_id: bikeId,
+    interval_id: interval.id,
+    service_name: name,
+    hours_at_service: startHours,
+    date: new Date().toISOString(),
+  })
 
   revalidatePath(`/bikes/${bikeId}/settings`)
   revalidatePath(`/bikes/${bikeId}`)
