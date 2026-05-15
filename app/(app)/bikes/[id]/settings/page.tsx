@@ -1,9 +1,10 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
 import { addInterval, deleteInterval, deleteBike, updateHoursOffset } from './actions'
+import BackButton from '@/components/BackButton'
 
 const inputClass =
-  'bg-[#111] border border-[#333] text-white placeholder-[#555] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#ff6600]'
+  'bg-[#111] border border-[#333] text-white placeholder-[#555] rounded-lg px-3 py-2.5 text-base focus:outline-none focus:border-[#ff6600]'
 
 export default async function BikeSettingsPage({
   params,
@@ -36,6 +37,7 @@ export default async function BikeSettingsPage({
 
   return (
     <main className="p-4">
+      <BackButton />
       <h1 className="text-2xl font-bold mb-6">Einstellungen</h1>
       <p className="text-[#888] text-sm mb-6">{bike.name}</p>
 

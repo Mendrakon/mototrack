@@ -1,9 +1,10 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
 import { logService } from './actions'
+import BackButton from '@/components/BackButton'
 
 const inputClass =
-  'bg-[#1a1a1a] border border-[#333] text-white placeholder-[#555] rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#ff6600] w-full'
+  'bg-[#1a1a1a] border border-[#333] text-white placeholder-[#555] rounded-lg px-4 py-3 text-base focus:outline-none focus:border-[#ff6600] w-full'
 
 export default async function NewServicePage({
   searchParams,
@@ -36,6 +37,7 @@ export default async function NewServicePage({
 
   return (
     <main className="p-4">
+      <BackButton />
       <h1 className="text-2xl font-bold mb-2">Service eintragen</h1>
       <p className="text-[#888] text-sm mb-6">{bike.name}</p>
 

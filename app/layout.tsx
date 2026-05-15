@@ -8,6 +8,12 @@ export const metadata: Metadata = {
   title: 'MotoTrack',
   description: 'Motorrad Betriebsstunden & Service Tracker',
   manifest: '/manifest.json',
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

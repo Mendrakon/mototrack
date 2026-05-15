@@ -6,6 +6,7 @@ export interface Bike {
   model: string | null
   year: number | null
   total_hours: number
+  hours_offset: number
   api_key: string
   created_at: string
 }
