@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
-import { addInterval, deleteInterval, deleteBike } from './actions'
+import { addInterval, deleteInterval, deleteBike, updateHoursOffset } from './actions'
 
 const inputClass =
   'bg-[#111] border border-[#333] text-white placeholder-[#555] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#ff6600]'
@@ -32,6 +32,7 @@ export default async function BikeSettingsPage({
 
   const addIntervalWithId = addInterval.bind(null, id)
   const deleteBikeWithId = deleteBike.bind(null, id)
+  const updateOffsetWithId = updateHoursOffset.bind(null, id)
 
   return (
     <main className="p-4">
@@ -47,6 +48,32 @@ export default async function BikeSettingsPage({
           </p>
           <code className="text-[#ff6600] text-xs break-all">{bike.api_key}</code>
         </div>
+      </section>
+
+      {/* Hours Offset */}
+      <section className="mb-8">
+        <h2 className="text-base font-semibold mb-1">Vorherige Betriebsstunden</h2>
+        <p className="text-xs text-[#888] mb-3">
+          Stunden, die das Motorrad vor dem ESP32-Einbau hatte. Die App zeigt dann{' '}
+          <span className="text-white">Offset + ESP-Stunden</span> als Gesamtstunden an.
+        </p>
+        <form action={updateOffsetWithId} className="flex gap-2">
+          <input
+            name="hours_offset"
+            type="number"
+            min="0"
+            step="0.5"
+            defaultValue={bike.hours_offset ?? 0}
+            required
+            className={`${inputClass} flex-1`}
+          />
+          <button
+            type="submit"
+            className="bg-[#ff6600] text-black font-semibold rounded-lg px-4 text-sm"
+          >
+            Speichern
+          </button>
+        </form>
       </section>
 
       {/* Service Intervals */}

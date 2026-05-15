@@ -13,6 +13,8 @@ export async function createBike(formData: FormData) {
   const model = (formData.get('model') as string) || null
   const yearRaw = formData.get('year') as string
   const year = yearRaw ? parseInt(yearRaw, 10) : null
+  const hoursOffsetRaw = formData.get('hours_offset') as string
+  const hours_offset = hoursOffsetRaw ? parseFloat(hoursOffsetRaw) : 0
 
   const { data, error } = await supabase
     .from('bikes')
@@ -22,6 +24,7 @@ export async function createBike(formData: FormData) {
       make,
       model,
       year,
+      hours_offset,
       api_key: crypto.randomUUID(),
     })
     .select('id')

@@ -57,6 +57,19 @@ export default async function NewBikePage({
             className={inputClass}
           />
         </div>
+        <div className="flex flex-col gap-1">
+          <label className="text-xs text-[#888]">Vorherige Betriebsstunden</label>
+          <input
+            name="hours_offset"
+            type="number"
+            placeholder="z.B. 400 (bei Gebrauchtmotorrad)"
+            min="0"
+            step="0.5"
+            defaultValue="0"
+            className={inputClass}
+          />
+          <p className="text-xs text-[#555]">Stunden, die das Motorrad vor dem ESP32-Einbau hatte</p>
+        </div>
         <button
           type="submit"
           className="bg-[#ff6600] text-black font-semibold rounded-lg py-3 text-sm mt-2"

@@ -19,7 +19,7 @@ export default async function NewServicePage({
 
   const { data: bike } = await supabase
     .from('bikes')
-    .select('id, name, total_hours')
+    .select('id, name, total_hours, hours_offset')
     .eq('id', bike_id)
     .eq('user_id', user.id)
     .single()
@@ -78,7 +78,7 @@ export default async function NewServicePage({
             type="number"
             step="0.1"
             min="0"
-            defaultValue={bike.total_hours.toFixed(2)}
+            defaultValue={((bike.hours_offset ?? 0) + bike.total_hours).toFixed(2)}
             required
             className={inputClass}
           />

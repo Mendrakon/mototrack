@@ -56,7 +56,8 @@ export default async function DashboardPage() {
           const bikeLogs = (logs ?? []).filter((l) =>
             bikeIntervals.some((i) => i.id === l.interval_id)
           )
-          const statuses = getServiceStatuses(bike.total_hours, bikeIntervals, bikeLogs)
+          const effectiveHours = (bike.hours_offset ?? 0) + bike.total_hours
+          const statuses = getServiceStatuses(effectiveHours, bikeIntervals, bikeLogs)
           const worstStatus = statuses.length > 0 ? getWorstStatus(statuses) : undefined
           const nextService = statuses
             .filter((s) => s.status !== 'ok')
@@ -69,7 +70,7 @@ export default async function DashboardPage() {
               name={bike.name}
               make={bike.make}
               model={bike.model}
-              totalHours={bike.total_hours}
+              totalHours={effectiveHours}
               worstStatus={worstStatus}
               nextServiceName={nextService?.name}
             />

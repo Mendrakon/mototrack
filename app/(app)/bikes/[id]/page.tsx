@@ -47,7 +47,8 @@ export default async function BikeDetailPage({
     .eq('bike_id', id)
     .order('date', { ascending: false })
 
-  const statuses = getServiceStatuses(bike.total_hours, intervals ?? [], logs ?? [])
+  const effectiveHours = (bike.hours_offset ?? 0) + bike.total_hours
+  const statuses = getServiceStatuses(effectiveHours, intervals ?? [], logs ?? [])
 
   return (
     <main className="p-4 pb-4">
@@ -71,7 +72,7 @@ export default async function BikeDetailPage({
 
       <div className="bg-[#1a1a1a] rounded-xl p-5 mb-6 text-center">
         <p className="text-[#888] text-xs mb-1">Betriebsstunden</p>
-        <p className="text-5xl font-bold text-white">{bike.total_hours.toFixed(2)}</p>
+        <p className="text-5xl font-bold text-white">{effectiveHours.toFixed(2)}</p>
         <p className="text-[#888] text-sm mt-1">Stunden</p>
       </div>
 

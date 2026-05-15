@@ -31,6 +31,25 @@ export async function deleteInterval(intervalId: string, bikeId: string) {
   revalidatePath(`/bikes/${bikeId}/settings`)
 }
 
+export async function updateHoursOffset(bikeId: string, formData: FormData) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/login')
+
+  const hours_offset = parseFloat(formData.get('hours_offset') as string)
+  if (isNaN(hours_offset) || hours_offset < 0) return
+
+  await supabase
+    .from('bikes')
+    .update({ hours_offset })
+    .eq('id', bikeId)
+    .eq('user_id', user.id)
+
+  revalidatePath(`/bikes/${bikeId}`)
+  revalidatePath(`/bikes/${bikeId}/settings`)
+  revalidatePath('/dashboard')
+}
+
 export async function deleteBike(bikeId: string) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
