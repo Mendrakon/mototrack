@@ -64,7 +64,7 @@ export default async function BikeSettingsPage({
             name="hours_offset"
             type="number"
             min="0"
-            step="0.5"
+            step="0.01"
             defaultValue={bike.hours_offset ?? 0}
             required
             className={`${inputClass} flex-1`}
@@ -124,7 +124,7 @@ export default async function BikeSettingsPage({
               placeholder="Intervall (Stunden)"
               required
               min="1"
-              step="0.5"
+              step="0.01"
               className={`${inputClass} flex-1`}
             />
           </div>
@@ -133,7 +133,7 @@ export default async function BikeSettingsPage({
             type="number"
             placeholder="Letzter Service bei … h (optional)"
             min="0"
-            step="0.5"
+            step="0.01"
             className={`${inputClass} w-full`}
           />
           <p className="text-xs text-[#555]">Leer lassen = Tracking startet ab jetzt</p>

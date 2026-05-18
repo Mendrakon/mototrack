@@ -78,7 +78,7 @@ export default async function NewServicePage({
           <input
             name="hours_at_service"
             type="number"
-            step="0.1"
+            step="0.01"
             min="0"
             defaultValue={((bike.hours_offset ?? 0) + bike.total_hours).toFixed(2)}
             required

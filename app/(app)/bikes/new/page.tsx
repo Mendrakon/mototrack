@@ -66,7 +66,7 @@ export default async function NewBikePage({
             type="number"
             placeholder="z.B. 400 (bei Gebrauchtmotorrad)"
             min="0"
-            step="0.5"
+            step="0.01"
             defaultValue="0"
             className={inputClass}
           />
